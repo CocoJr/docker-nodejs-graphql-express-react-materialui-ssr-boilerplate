@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "user",
+    "password": "azerty",
+    "database": "app",
+    "host": "db",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "hotmail",
+    "database": "music",
+    "host": "db",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "hotmail",
+    "database": "music",
+    "host": "db",
+    "dialect": "mysql"
+  }
+}
