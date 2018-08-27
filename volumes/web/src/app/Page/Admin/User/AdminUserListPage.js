@@ -323,7 +323,7 @@ class AdminUserListPage extends React.Component {
                                                                                                     ? <Spinner/>
                                                                                                     : <img
                                                                                                         style={{maxWidth: '100%'}}
-                                                                                                        src={'http://site.local:8080/' + user.imgProfil}
+                                                                                                        src={'http://192.168.1.21:8080/' + user.imgProfil}
                                                                                                     />
                                                                                             )}
                                                                                             <InputField

@@ -46,7 +46,7 @@ if (document.getElementById('root') !== null) {
 
     // GraphQL
     const uploadLink = createUploadLink({
-        uri: 'http://site.local:8080/graphql',
+        uri: 'http://192.168.1.21:8080/graphql',
         credentials: 'same-origin',
     });
 
@@ -62,7 +62,7 @@ if (document.getElementById('root') !== null) {
 
     // Create a WebSocket link:
     const wsLink = new WebSocketLink({
-        uri: 'ws://site.local:8080/subscription',
+        uri: 'ws://192.168.1.21:8080/subscription',
         options: {
             reconnect: true
         }

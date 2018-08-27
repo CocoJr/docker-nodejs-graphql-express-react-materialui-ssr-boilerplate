@@ -102,7 +102,7 @@ class UIAppBar extends React.Component
                     color="inherit"
                 >
                     {user.imgProfil != null
-                        ? <img src={'http://site.local:8080/' + user.imgProfil} className={classes.imgProfil} />
+                        ? <img src={'http://192.168.1.21:8080/' + user.imgProfil} className={classes.imgProfil} />
                         : <AccountCircle />
                     }
                 </IconButton>

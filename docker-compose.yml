@@ -39,21 +39,6 @@ services:
         working_dir: /home/node/web
         restart: always
 
-    mobile:
-        build:
-            context: ./mobile
-        env_file: .env
-        expose:
-            - 8180
-        ports:
-            - "${MOBILE_PORT}:8180"
-        volumes:
-            - "./volumes/mobile:/home/node/mobile"
-        command: "npm start"
-        user: "node"
-        working_dir: /home/node/mobile
-        restart: always
-
 volumes:
     db_volume:
         driver: local

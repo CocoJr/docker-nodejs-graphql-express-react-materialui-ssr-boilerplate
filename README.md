@@ -7,7 +7,9 @@
 
 1. Create and customise our `.env` files using `.env.dist` template
 2. Copy the `server/crontab.dist` to `server/crontab` and add your own crontab
-2. Start the project with `docker-compose up --build[ -d]`
+2. Start the project:
+	1. With `docker-compose up -d` in production
+	2. With `docker-compose -f docker-compose.yml -f docker-compose.dev.yml up` in development
 
 ### Information
 

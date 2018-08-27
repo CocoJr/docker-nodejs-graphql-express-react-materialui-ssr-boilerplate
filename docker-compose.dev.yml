@@ -1,0 +1,15 @@
+version: '2.1'
+services:
+    mobile:
+        build:
+            context: ./mobile
+        env_file: .env
+        ports:
+            - "19000:19000"
+            - "19001:19001"
+        volumes:
+            - "./volumes/mobile:/home/node/mobile"
+        command: "npm start --no-interactive --reset-cache"
+        user: "node"
+        working_dir: /home/node/mobile
+        restart: always

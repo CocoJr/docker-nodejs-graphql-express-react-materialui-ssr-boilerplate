@@ -59,7 +59,7 @@ class UserProfilPage extends React.Component {
                                 <Grid item xs={12} md={6} key={0}>
                                     {user.imgProfil != null
                                         ? <img style={{maxWidth: '100%'}}
-                                               src={'http://site.local:8080/' + user.imgProfil}/>
+                                               src={'http://192.168.1.21:8080/' + user.imgProfil}/>
                                         : <AccountCircle/>
                                     }
                                     <Mutation mutation={uploadImgProfilMutation}>
