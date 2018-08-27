@@ -1,11 +1,12 @@
 ### Package
 
- - node 9.11 (hostname: client || server)
+ - node 9.11 (hostname: client & server & mobile)
  - mysql 5.7 (hostname: db)
 
 ### Installation
 
 1. Create and customise our `.env` files using `.env.dist` template
+2. Copy the `server/crontab.dist` to `server/crontab` and add your own crontab
 2. Start the project with `docker-compose up --build[ -d]`
 
 ### Information

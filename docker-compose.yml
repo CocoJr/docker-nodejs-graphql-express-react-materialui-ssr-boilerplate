@@ -24,19 +24,34 @@ services:
         working_dir: /home/node/server
         restart: always
 
-    client:
+    web:
         build:
-            context: ./client
+            context: ./web
         env_file: .env
         expose:
             - 8181
         ports:
             - "${CLIENT_PORT}:8181"
         volumes:
-            - "./volumes/client:/home/node/client"
+            - "./volumes/web:/home/node/web"
         command: "npm start"
         user: "node"
-        working_dir: /home/node/client
+        working_dir: /home/node/web
+        restart: always
+
+    mobile:
+        build:
+            context: ./mobile
+        env_file: .env
+        expose:
+            - 8180
+        ports:
+            - "${MOBILE_PORT}:8180"
+        volumes:
+            - "./volumes/mobile:/home/node/mobile"
+        command: "npm start"
+        user: "node"
+        working_dir: /home/node/mobile
         restart: always
 
 volumes:
