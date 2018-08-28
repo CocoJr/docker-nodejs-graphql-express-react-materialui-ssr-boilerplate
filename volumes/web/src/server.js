@@ -21,6 +21,9 @@ import {Helmet} from 'react-helmet';
 import Moment from 'react-moment';
 import {handle as middlewareI18nHandle} from 'i18next-express-middleware';
 import PropTypes from 'prop-types';
+import {combineReducers, compose, createStore} from "redux";
+import {AppReducer} from "./app/Reducer/AppReducer";
+import Provider from "react-redux/es/components/Provider";
 
 const server = express();
 
@@ -78,10 +81,22 @@ server.use((req, res) => {
         cache: new InMemoryCache(),
     });
 
+    const store = createStore(
+        combineReducers({
+            AppReducer: AppReducer,
+        }),
+        {}, // initial state
+        compose(
+            // If you are using the devToolsExtension, you can add it here also
+            f => f,
+        )
+    );
+
     const sheetsRegistry = new SheetsRegistry();
 
     const app = <Server
         client={client}
+        store={store}
         req={req}
         sheetsRegistry={sheetsRegistry}
         getDisableStylesGeneration={getDisableStylesGeneration}
@@ -141,13 +156,13 @@ Html.propTypes = {
     content: PropTypes.string,
     state: PropTypes.object,
     css: PropTypes.string,
-    helmet: PropTypes.element,
-    generateClassName: PropTypes.func
+    helmet: PropTypes.object,
+    generateClassName: PropTypes.func,
 };
 
 class Server extends React.Component {
     render() {
-        const {client, req, sheetsRegistry, getDisableStylesGeneration, generateClassName} = this.props;
+        const {client, req, sheetsRegistry, getDisableStylesGeneration, generateClassName, store} = this.props;
         const context = {};
 
         return (
@@ -157,13 +172,15 @@ class Server extends React.Component {
                     sheetsManager={new Map()}
                     disableStylesGeneration={getDisableStylesGeneration()}
                 >
-                    <ApolloProvider client={client}>
-                        <I18nextProvider i18n={req.i18n} initialLanguage={req.i18n.language}>
-                            <StaticRouter location={req.url} context={context}>
-                                <App/>
-                            </StaticRouter>
-                        </I18nextProvider>
-                    </ApolloProvider>
+                    <Provider store={store}>
+                        <ApolloProvider client={client}>
+                            <I18nextProvider i18n={req.i18n} initialLanguage={req.i18n.language}>
+                                <StaticRouter location={req.url} context={context}>
+                                    <App />
+                                </StaticRouter>
+                            </I18nextProvider>
+                        </ApolloProvider>
+                        </Provider>
                 </MuiThemeProvider>
             </JssProvider>
         );
@@ -175,5 +192,6 @@ Server.propTypes = {
     req: PropTypes.object,
     sheetsRegistry: PropTypes.instanceOf(SheetsRegistry),
     getDisableStylesGeneration: PropTypes.func,
-    generateClassName: PropTypes.func
+    generateClassName: PropTypes.func,
+    store: PropTypes.object,
 };

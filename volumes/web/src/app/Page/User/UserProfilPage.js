@@ -59,7 +59,7 @@ class UserProfilPage extends React.Component {
                                 <Grid item xs={12} md={6} key={0}>
                                     {user.imgProfil != null
                                         ? <img style={{maxWidth: '100%'}}
-                                               src={'http://192.168.1.21:8080/' + user.imgProfil}/>
+                                               src={'http://' + process.env.APP_HOSTNAME + ':'+process.env.SERVER_PORT+'/' + user.imgProfil}/>
                                         : <AccountCircle/>
                                     }
                                     <Mutation mutation={uploadImgProfilMutation}>
@@ -128,7 +128,7 @@ class UserProfilPage extends React.Component {
                                                                           size={32}
                                                                           onClick={() => {
                                                                               let newUser = Object.assign({}, user);
-                                                                              newUser.email = editEmailField.value;
+                                                                              newUser.email = document.getElementById(editEmailField.props.id).value;
                                                                               editProfil({
                                                                                   variables: {
                                                                                       email: newUser.email
@@ -147,10 +147,6 @@ class UserProfilPage extends React.Component {
                                                             }
                                                             defaultValue={user.email}
                                                             ref={node => {
-                                                                if (node) {
-                                                                    node = node.getElementsByTagName('input')[0];
-                                                                }
-
                                                                 editEmailField = node;
                                                             }}
                                                         />
@@ -176,7 +172,7 @@ class UserProfilPage extends React.Component {
                                                                           size={32}
                                                                           onClick={() => {
                                                                               let newUser = Object.assign({}, user);
-                                                                              newUser.username = editUsernameField.value;
+                                                                              newUser.username = document.getElementById(editUsernameField.props.id).value;
                                                                               editProfil({
                                                                                   variables: {
                                                                                       username: newUser.username,
@@ -195,10 +191,6 @@ class UserProfilPage extends React.Component {
                                                             }
                                                             defaultValue={user.username}
                                                             ref={node => {
-                                                                if (node) {
-                                                                    node = node.getElementsByTagName('input')[0];
-                                                                }
-
                                                                 editUsernameField = node;
                                                             }}
                                                         />

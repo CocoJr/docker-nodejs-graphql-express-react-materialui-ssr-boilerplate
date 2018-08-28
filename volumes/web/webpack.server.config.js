@@ -12,11 +12,9 @@ const ABSOLUTE_ASSETS_DIR = path.resolve(__dirname, ASSETS_DIR);
 
 let plugins = [
     new webpack.DefinePlugin({
-        'process.env': {
-            'NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-            '__SERVER__': 'true',
-            '__CLIENT__': 'false',
-        },
+        'process.env.NODE_ENV': JSON.stringify(process.env.ENV),
+        'process.env.APP_HOSTNAME': JSON.stringify(process.env.APP_HOSTNAME),
+        'process.env.SERVER_PORT': JSON.stringify(process.env.SERVER_PORT),
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         __SERVER__: 'true',
         __CLIENT__: 'false',

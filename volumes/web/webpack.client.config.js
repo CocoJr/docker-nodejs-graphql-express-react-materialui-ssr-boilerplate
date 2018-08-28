@@ -22,7 +22,7 @@ const ABSOLUTE_ASSETS_DIR = path.resolve(__dirname, ASSETS_DIR);
 const filenameTemplate = !PROD ? '[name]' : '[chunkhash:12].[name]';
 
 module.exports = {
-    devtool: !PROD ? "cheap-module-eval-source-map" : false,
+    devtool: !PROD ? 'cheap-module-eval-source-map' : false,
     entry: {
         'bundle': [
             'babel-polyfill',
@@ -36,10 +36,9 @@ module.exports = {
     },
     plugins: [
         new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify(process.env.ENV === 'prod' ? 'production' : 'development'),
-            },
-            NODE_ENV: JSON.stringify(process.env.ENV === 'prod' ? 'production' : 'development'),
+            'process.env.NODE_ENV': JSON.stringify(process.env.ENV),
+            'process.env.APP_HOSTNAME': JSON.stringify(process.env.APP_HOSTNAME),
+            'process.env.SERVER_PORT': JSON.stringify(process.env.SERVER_PORT),
         }),
         new ExtractTextPlugin(filenameTemplate + '.js'),
         new UglifyJSPlugin({
@@ -73,7 +72,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                use: ["babel-loader"]
+                use: ['babel-loader']
             },
             {
                 test: /\.(png|jpg|jpeg|gif|eot|svg|woff2?|ttf)$/,

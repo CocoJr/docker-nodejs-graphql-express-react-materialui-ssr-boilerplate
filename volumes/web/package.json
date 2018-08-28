@@ -28,6 +28,7 @@
     "nodemon": "^1.17.5",
     "nodemon-webpack-plugin": "^3.0.1",
     "parallel-webpack": "^2.3.0",
+    "redux-devtools": "^3.4.1",
     "webpack": "^3.*",
     "webpack-node-externals": "^1.2.0"
   },
@@ -72,8 +73,10 @@
     "react-loadable": "^5.4.0",
     "react-materialui-notifications": "^0.5.1",
     "react-moment": "^0.7.9",
+    "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
     "react-transition-group": "^2.4.0",
+    "redux": "^4.0.0",
     "rxjs": "^6.2.1",
     "style-loader": "^0.22.1",
     "subscriptions-transport-ws": "^0.9.14",
@@ -92,7 +95,7 @@
     ]
   },
   "scripts": {
-    "start": "if [ \"$ENV\" = \"dev\" ]; then npm run watch; else npm run build && cd dist && node server; fi;",
+    "start": "if [ \"$NODE_ENV\" = \"development\" ]; then npm run watch; else npm run build && cd dist && node server; fi;",
     "build": "NODE_ENV=production && npm install && sed -i 's/material-ui\\/core\\/SvgIcon/material-ui\\/core\\/es\\/SvgIcon/' 'node_modules/@material-ui/icons/es/utils/createSvgIcon.js' && parallel-webpack --config webpack.config.js",
     "watch": "npm install && sed -i 's/material-ui\\/core\\/SvgIcon/material-ui\\/core\\/es\\/SvgIcon/' 'node_modules/@material-ui/icons/es/utils/createSvgIcon.js' && webpack --config webpack.config.js --watch"
   },

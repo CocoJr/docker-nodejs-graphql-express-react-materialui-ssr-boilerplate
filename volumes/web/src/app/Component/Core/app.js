@@ -75,6 +75,8 @@ import ReactMaterialUiNotifications from 'react-materialui-notifications';
 import moment from 'moment';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import PropTypes from 'prop-types';
+import connect from "react-redux/es/connect/connect";
+import {setIsApp} from "../../Reducer/AppReducer";
 
 function Transition(props) {
     return <Slide direction="down" {...props} />;
@@ -110,6 +112,20 @@ class App extends Component {
         this.handleAdminCollapse = this.handleAdminCollapse.bind(this);
     }
 
+    getParameterByName(name) {
+        name = name.replace(/[[\]]/g, '\\$&');
+
+        let url = this.props.location.search;
+        let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+
+        if (!results) return null;
+
+        if (!results[2]) return '';
+
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
     /**
      * Render the global errors in dialog
      *
@@ -142,7 +158,17 @@ class App extends Component {
      * @returns {*}
      */
     render() {
-        const {location, classes, i18n, t} = this.props;
+        const {dispatch, location, classes, i18n, t, isApp} = this.props;
+
+        let newIsApp = this.getParameterByName('isApp') === '1';
+        if (isApp !== newIsApp) {
+            dispatch(setIsApp(newIsApp));
+            return null;
+        }
+
+        if (isApp) {
+            return App.renderErrors({title: 'MOBILE', error: 'TU ES SUR MOBILE !'});
+        }
 
         return (
             <Query query={userMeGql}>
@@ -342,13 +368,23 @@ App.propTypes = {
     classes: PropTypes.object,
     i18n: PropTypes.object,
     t: PropTypes.func,
+    isApp: PropTypes.bool,
+    dispatch: PropTypes.func,
 };
+
+function mapStateToProps(state) {
+    return {
+        isApp: state.AppReducer.isApp,
+    };
+}
 
 export default withRouter(
     translate()(
         withApollo(
             withStyles(styles, {withTheme: true})(
-                App
+                connect(mapStateToProps)(
+                    App
+                )
             )
         )
     )

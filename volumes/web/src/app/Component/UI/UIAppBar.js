@@ -102,7 +102,7 @@ class UIAppBar extends React.Component
                     color="inherit"
                 >
                     {user.imgProfil != null
-                        ? <img src={'http://192.168.1.21:8080/' + user.imgProfil} className={classes.imgProfil} />
+                        ? <img src={'http://' + process.env.APP_HOSTNAME + ':'+process.env.SERVER_PORT+'/' + user.imgProfil} className={classes.imgProfil} />
                         : <AccountCircle />
                     }
                 </IconButton>
@@ -152,7 +152,7 @@ UIAppBar.propTypes = {
     handleChangeLanguageFr: PropTypes.func,
     handleChangeLanguageEn: PropTypes.func,
     i18n: PropTypes.object,
-    anchorEl: PropTypes.bool,
+    anchorEl: PropTypes.object,
     theme: PropTypes.object,
     handleMenu: PropTypes.func,
     handleCloseMenu: PropTypes.func,

@@ -2,6 +2,8 @@ import 'isomorphic-fetch';
 import es6Promise from 'es6-promise';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, combineReducers, compose } from 'redux';
+import { Provider } from 'react-redux';
 import {ApolloProvider} from 'react-apollo';
 import {ApolloClient} from 'apollo-client';
 import {split} from 'apollo-link';
@@ -19,9 +21,9 @@ import Theme from './Theme/theme';
 import {I18nextProvider} from 'react-i18next';
 import i18n from './locales/client';
 import Moment from 'react-moment';
+import {AppReducer} from './Reducer/AppReducer';
 
 es6Promise.polyfill();
-
 
 if (document.getElementById('root') !== null) {
     const history = createBrowserHistory();
@@ -46,7 +48,7 @@ if (document.getElementById('root') !== null) {
 
     // GraphQL
     const uploadLink = createUploadLink({
-        uri: 'http://192.168.1.21:8080/graphql',
+        uri: 'http://' + process.env.APP_HOSTNAME + ':' + process.env.SERVER_PORT + '/graphql',
         credentials: 'same-origin',
     });
 
@@ -62,7 +64,7 @@ if (document.getElementById('root') !== null) {
 
     // Create a WebSocket link:
     const wsLink = new WebSocketLink({
-        uri: 'ws://192.168.1.21:8080/subscription',
+        uri: 'ws://' + process.env.APP_HOSTNAME + ':'+process.env.SERVER_PORT+'/subscription',
         options: {
             reconnect: true
         }
@@ -82,15 +84,28 @@ if (document.getElementById('root') !== null) {
         cache: new InMemoryCache().restore(window.__APOLLO_STATE__),
     });
 
+    const store = createStore(
+        combineReducers({
+            AppReducer: AppReducer,
+        }),
+        {}, // initial state
+        compose(
+            // If you are using the devToolsExtension, you can add it here also
+            (typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined') ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
+        )
+    );
+
     ReactDOM.hydrate(
         <MuiThemeProvider theme={Theme}>
-            <ApolloProvider client={client}>
-                <I18nextProvider i18n={i18n}>
-                    <Router history={history}>
-                        <Main/>
-                    </Router>
-                </I18nextProvider>
-            </ApolloProvider>
+            <Provider store={store}>
+                <ApolloProvider client={client}>
+                    <I18nextProvider i18n={i18n}>
+                        <Router history={history}>
+                            <Main/>
+                        </Router>
+                    </I18nextProvider>
+                </ApolloProvider>
+            </Provider>
         </MuiThemeProvider>,
         document.getElementById('root')
     );
